@@ -42,9 +42,9 @@ namespace MyRecipeApp
                     //    float factor = float.Parse(Console.ReadLine());
                     //    worker.ScaleRecipe();
                     //    break;
-                    //case 4:
-                    //    worker.Reset();
-                    //    break;
+                    case 4:
+                        worker.Reset();
+                        break;
                     case 5:
                         Environment.Exit(0);
                         break;

@@ -12,6 +12,7 @@ namespace MyRecipeApp
         string[] ingredients;
         string[] steps;
 
+        //takes user input for recipe details and stores it in array
         public void EnterRecipeDetails()
         {
             Console.WriteLine("Enter the recipe name: ");
@@ -45,6 +46,7 @@ namespace MyRecipeApp
 
 
         }
+        //displays the recipe details
         public void DisplayRecipe()
         {
             Console.WriteLine("Recipe Details");
@@ -61,6 +63,13 @@ namespace MyRecipeApp
             }
             
 
+        }
+        //sets all array values back to empty 
+        public void Reset()
+        {
+            ingredients = null;
+            steps = null;
+            Console.WriteLine("Recipe details have been reset");
         }
 
     }
