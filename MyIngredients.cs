@@ -8,11 +8,14 @@ namespace MyRecipeApp
 {
     class MyIngredients
     {
+        string recipeName;
         string[] ingredients;
         string[] steps;
 
         public void EnterRecipeDetails()
         {
+            Console.WriteLine("Enter the recipe name: ");
+            recipeName = Console.ReadLine();
             Console.WriteLine("Enter number of ingredients: ");
             int numIngredients = Convert.ToInt32(Console.ReadLine());
             ingredients = new string[numIngredients];
@@ -40,6 +43,23 @@ namespace MyRecipeApp
                 steps[i] = Console.ReadLine();
             }
 
+
+        }
+        public void DisplayRecipe()
+        {
+            Console.WriteLine("Recipe Details");
+            Console.WriteLine($"Recipe Name: {recipeName}");
+            Console.WriteLine("Ingredients: ");
+            foreach(string ingredient in ingredients)
+            {
+                Console.WriteLine(ingredient);
+            }
+            Console.WriteLine("Steps: ");
+            for(int i = 0; i < steps.Length; i++)
+            {
+                Console.WriteLine($"{i + 1}. {steps[i]}");
+            }
+            
 
         }
 
