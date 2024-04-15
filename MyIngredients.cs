@@ -6,12 +6,10 @@ using System.Threading.Tasks;
 
 namespace MyRecipeApp
 {
-    internal class MyIngredients
+    class MyIngredients
     {
-        public void Run()
-        {
-            Console.WriteLine("My Ingredients");
-        }
+
     }
+        
   
 }
