@@ -71,6 +71,34 @@ namespace MyRecipeApp
             steps = null;
             Console.WriteLine("Recipe details have been reset");
         }
+        public void ScaleRecipe(float factor)
+        {
+            for(int i = 0; i < ingredients.Length; i++)
+            {
+                string[] parts = ingredients[i].Split(' ');
+                float quantity = float.Parse(parts[0]);
+                quantity *= factor;
+                parts[0] = quantity.ToString();
+                ingredients[i] = string.Join(" ", parts);
+            }
+            //display the scaled recipe
+            Console.WriteLine("Scaled Recipe");
+            Console.WriteLine($"Recipe Name: {recipeName}");
+            Console.WriteLine("Ingredients: ");
+            foreach (string ingredient in ingredients)
+            {
+                Console.WriteLine(ingredient);
+            }
+            Console.WriteLine("Steps: ");
+            for (int i = 0; i < steps.Length; i++)
+            {
+                Console.WriteLine($"{i + 1}. {steps[i]}");
+            }
+
+            
+   
+
+        }
 
     }
     

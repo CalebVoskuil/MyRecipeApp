@@ -37,11 +37,11 @@ namespace MyRecipeApp
                     case 2:
                         worker.DisplayRecipe();
                         break;
-                    //case 3:
-                    //    Console.WriteLine("Enter the scale factor: ");
-                    //    float factor = float.Parse(Console.ReadLine());
-                    //    worker.ScaleRecipe();
-                    //    break;
+                    case 3:
+                        Console.WriteLine("Enter the scale factor: ");
+                        float factor = float.Parse(Console.ReadLine());
+                        worker.ScaleRecipe(factor);
+                        break;
                     case 4:
                         worker.Reset();
                         break;
