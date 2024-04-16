@@ -10,6 +10,7 @@ References
 My application was built using the .NET 4.8 Framework for C# in MicroSoft Visual Studio.
 MicroSoft Visual studio is free to install and can be found on the official website for microsft.
 Once microsoft visual studio is installed you can clone the repository directly to visual studio and open it.
+once you have opened the file there will be a green arrow at the top of the window, once you click that the code will compile and run
 
 # Classes
 i have 3 classes each handling different areas of the console app
@@ -18,3 +19,8 @@ The menuHandler class has a switch statement in it for all the various choice th
 This class has the bulk of the code in it containing the methods that handle the user input and storing them into arrays, scaling the quantities by a certain factor, resetting the quantities back to the original and displaying the recipe back to the user in a neat format.
 
 # References 
+below is a list of all the videos i used as help as well as the link to my repository
+https://youtu.be/GhQdlIFylQ8?si=cKIYSWunHDC1csWj
+https://youtu.be/gfkTfcpWqAY?si=3BredEtmLRK-IVXr
+https://youtu.be/wxznTygnRfQ?si=YdSPdyKekHStCUFz
+https://github.com/CalebVoskuil/MyRecipeApp.git
