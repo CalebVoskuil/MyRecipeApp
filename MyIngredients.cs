@@ -21,6 +21,8 @@ namespace MyRecipeApp
             recipeName = Console.ReadLine();
             
             int myIngredients;
+            //this is how ive implemented error handling in my project, i have a try catch block which checks to see if the number of ingredients you have is a postive number
+            //if the number isnt postive or is 0 it will give you an out of range error with the custom message i typed as well
              while (true)
             {
                 try
@@ -55,6 +57,9 @@ namespace MyRecipeApp
                 string name = Console.ReadLine();
 
                 string quantity;
+                // this is the same concept as the previous try cacth block with it taking in your quantity as a string and attempting to parse it to a float
+                //if the float is less than or equal to 0 you will get the error message
+                //additionally if you accidentally type in something that isnt a number the prgram will catch that as well and display the error message
                 while(true)
                 {
                     try
@@ -154,6 +159,9 @@ namespace MyRecipeApp
             {
   // splits the string in the ingredients array into an array of strings and stores it in Scaled which is then used to calculate the new quantity
                 Scaled = ingredients[i].Split(' ');
+                // this method works by having the try check if the length of the split array is less than 4 or more than 4, this only works because i know the structure of my array beforehand
+                //if the length isnt exactly 4 then the program will throw out an error message
+                //also if you typed in something that isnt a number the program will find out by trying to parse it to a float and if unsucssesful it will display an error message
                 try
                 {
                     if(Scaled.Length > 4 || 4 > Scaled.Length)
@@ -172,6 +180,10 @@ namespace MyRecipeApp
                 catch (FormatException ex)
                 {
                     Console.WriteLine(ex.Message + " Ingredient: " + ingredients);
+                }
+                catch (ArgumentOutOfRangeException ex)
+                {
+                    Console.WriteLine(ex.Message);
                 }
             }
                 

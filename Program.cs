@@ -11,7 +11,9 @@ namespace MyRecipeApp
     /// ST10397320
     /// Prog6221
     /// group 1
-    /// References:
+    /// References:https://youtu.be/GhQdlIFylQ8?si=cKIYSWunHDC1csWj
+    /// https://youtu.be/gfkTfcpWqAY?si=3BredEtmLRK-IVXr
+    /// https://youtu.be/wxznTygnRfQ?si=YdSPdyKekHStCUFz
     /// Repository link : https://github.com/CalebVoskuil/MyRecipeApp.git
     /// </summary>
     internal class Program
