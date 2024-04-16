@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -84,14 +85,18 @@ namespace MyRecipeApp
                 Scaled = ingredients[i].Split(' ');
                 float quantity = float.Parse(Scaled[0]);
                 quantity *= factor;
-                Console.WriteLine($"{quantity} {Scaled[1]} of {Scaled[3]}\n");
+                Console.WriteLine("*************************************************************************"); 
+                Console.WriteLine("Scaled Recipe: ");
+                Console.WriteLine($"{quantity} {Scaled[1]} of {Scaled[3]}");
             }
+           
                 
             Console.WriteLine("Steps: ");
             for (int i = 0; i < steps.Length; i++)
             {
                 Console.WriteLine($"{i + 1}. {steps[i]}");
             }
+            Console.WriteLine("*************************************************************************"); 
    
 
         }
