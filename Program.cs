@@ -20,7 +20,7 @@ namespace MyRecipeApp
             MyIngredients worker = new MyIngredients();
             while (true)
             {
-                Console.WriteLine("1. Enter Recipe Details");
+                Console.WriteLine("\n1. Enter Recipe Details");
                 Console.WriteLine("2. Display Recipe");
                 Console.WriteLine("3. Scale Recipe");
                 Console.WriteLine("4. Reset");
@@ -28,6 +28,7 @@ namespace MyRecipeApp
 
                 Console.WriteLine("Enter your choice: ");
                 int choice = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("\n");
 
                 switch(choice)
                 {
