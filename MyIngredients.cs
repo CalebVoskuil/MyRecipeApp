@@ -19,9 +19,34 @@ namespace MyRecipeApp
         {
             Console.WriteLine("Enter the recipe name: ");
             recipeName = Console.ReadLine();
-            Console.WriteLine("Enter number of ingredients: ");
-            int myIngredients = int.Parse(Console.ReadLine());
-            ingredients = new string[myIngredients];
+            
+            int myIngredients;
+             while (true)
+            {
+                try
+                {
+                    Console.WriteLine("Enter number of ingredients: ");
+                    myIngredients = int.Parse(Console.ReadLine());
+                    if (myIngredients <= 0)
+                    {
+                        throw new ArgumentOutOfRangeException("Invalid input. Please enter a number greater than 0");
+                    }  
+                        break;   
+                }
+
+                catch (FormatException)
+                {
+                    Console.WriteLine("Invalid input. Please enter a valid integer.");
+                }
+                catch (ArgumentOutOfRangeException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+
+            }
+             ingredients = new string[myIngredients];
+
+            
 
             //loops to take user input for each ingredient
             for(int i = 0; i < myIngredients; i++)
@@ -29,8 +54,28 @@ namespace MyRecipeApp
                 Console.WriteLine("Enter the ingredient name: ");
                 string name = Console.ReadLine();
 
-                Console.WriteLine("Enter the quantity: ");
-                string quantity = Console.ReadLine();
+                string quantity;
+                while(true)
+                {
+                    try
+                    {
+                        Console.WriteLine("Enter the quantity: ");
+                        quantity = Console.ReadLine();
+                        if(float.Parse(quantity) <= 0)
+                        {
+                            throw new ArgumentOutOfRangeException("Invalid input. Please enter a number greater than 0");                         
+                        }
+                        break;
+                    }
+                    catch (FormatException)
+                    {
+                        Console.WriteLine("Invalid input. Please enter a valid number.");
+                    }
+                    catch (ArgumentOutOfRangeException ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                }
 
                 Console.WriteLine("Enter the unit of measurement: ");
                 string unit = Console.ReadLine();
@@ -38,9 +83,33 @@ namespace MyRecipeApp
 
                 ingredients[i] = $"{quantity} {unit} of {name}";
             }
-            Console.WriteLine("Enter number of steps: ");
-            int mySteps = int.Parse(Console.ReadLine());
-            steps = new string[mySteps];
+            
+
+            int mySteps; 
+            while(true)
+            {
+                try
+                {
+                    Console.WriteLine("Enter number of steps: ");
+                    mySteps = int.Parse(Console.ReadLine());
+                    if(mySteps <= 0)
+                    {
+                        throw new ArgumentOutOfRangeException("Invalid input. Please enter a number above 0: ");
+                    }
+                    break;
+                    
+                }
+                catch(FormatException) 
+                {
+                    Console.WriteLine("invalid input. PLease input a valid number");
+                }
+                catch (ArgumentOutOfRangeException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+
+            }
+            steps = new string[mySteps];    
 
             //loops to take a description of each step
             for(int i = 0; i < mySteps; i++)
@@ -85,12 +154,28 @@ namespace MyRecipeApp
             {
   // splits the string in the ingredients array into an array of strings and stores it in Scaled which is then used to calculate the new quantity
                 Scaled = ingredients[i].Split(' ');
-                float quantity = float.Parse(Scaled[0]);
-                quantity *= factor;
-                Console.WriteLine("*************************************************************************"); 
-                Console.WriteLine("Scaled Recipe: ");
-                Console.WriteLine($"{quantity} {Scaled[1]} of {Scaled[3]}");
+                try
+                {
+                    if(Scaled.Length > 4 || 4 > Scaled.Length)
+                    {
+                        throw new ArgumentOutOfRangeException("Invalid ingredients.");
+                    }
+                    if (!float.TryParse(Scaled[0], out float quantity))
+                    {
+                        Console.WriteLine("Invalid quantity");
+                    }
+                    quantity *= factor;
+                    Console.WriteLine("*************************************************************************");
+                    Console.WriteLine("Scaled Recipe: ");
+                    Console.WriteLine($"{quantity} {Scaled[1]} of {Scaled[3]}");
+                }
+                catch (FormatException ex)
+                {
+                    Console.WriteLine(ex.Message + " Ingredient: " + ingredients);
+                }
             }
+                
+               
                 
             Console.WriteLine("Steps: ");
             for (int i = 0; i < steps.Length; i++)

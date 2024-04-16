@@ -33,7 +33,12 @@ namespace MyRecipeApp
                         break;
                     case 3:
                         Console.WriteLine("Enter the scale factor: ");
-                        float factor = float.Parse(Console.ReadLine());
+                        //checks to make sure factor is a postive number and above 0 before doing the calculation
+                        float factor;
+                        while (!float.TryParse(Console.ReadLine(), out factor) || factor <= 0)
+                        {
+                            Console.WriteLine("Invalid input. Enter a positive number for scaling factor: ");
+                        }
                         worker.ScaleRecipe(factor);
                         break;
                     case 4:
