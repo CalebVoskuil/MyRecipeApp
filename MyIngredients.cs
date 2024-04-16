@@ -14,16 +14,17 @@ namespace MyRecipeApp
         string[] ingredients;
         string[] steps;
 
-        //takes user input for recipe details and stores it in array
+        //takes user input for recipe details and stores it in array called ingredients
         public void EnterRecipeDetails()
         {
             Console.WriteLine("Enter the recipe name: ");
             recipeName = Console.ReadLine();
             Console.WriteLine("Enter number of ingredients: ");
-            int numIngredients = Convert.ToInt32(Console.ReadLine());
-            ingredients = new string[numIngredients];
+            int myIngredients = int.Parse(Console.ReadLine());
+            ingredients = new string[myIngredients];
 
-            for(int i = 0; i < numIngredients; i++)
+            //loops to take user input for each ingredient
+            for(int i = 0; i < myIngredients; i++)
             {
                 Console.WriteLine("Enter the ingredient name: ");
                 string name = Console.ReadLine();
@@ -38,10 +39,11 @@ namespace MyRecipeApp
                 ingredients[i] = $"{quantity} {unit} of {name}";
             }
             Console.WriteLine("Enter number of steps: ");
-            int numSteps = Convert.ToInt32(Console.ReadLine());
-            steps = new string[numSteps];
+            int mySteps = int.Parse(Console.ReadLine());
+            steps = new string[mySteps];
 
-            for(int i = 0; i < numSteps; i++)
+            //loops to take a description of each step
+            for(int i = 0; i < mySteps; i++)
             {
                 Console.WriteLine($"Enter step #{i + 1}: ");
                 steps[i] = Console.ReadLine();
@@ -49,7 +51,8 @@ namespace MyRecipeApp
 
 
         }
-        //displays the recipe details
+  //----------------------------------------------------------------------------------------------------------------------------------//
+        //prints out each ingredient in the ingredients array and each step in the steps array
         public void DisplayRecipe()
         {
             Console.WriteLine("*************************************************************************");
@@ -68,20 +71,19 @@ namespace MyRecipeApp
             Console.WriteLine("*************************************************************************");
 
         }
+//----------------------------------------------------------------------------------------------------------------------------------//
         //sets all array values back to empty 
         public void Reset()
-        {
-            //ingredients = null;
-            //steps = null;
-     
+        { 
             Scaled = null;
             Console.WriteLine("Recipe details have been reset");
         }
+  //----------------------------------------------------------------------------------------------------------------------------------//
         public void ScaleRecipe(float factor)
         {
             for(int i = 0; i < ingredients.Length; i++)
             {
-                // save the scaled quantity into a new array and display it
+  // splits the string in the ingredients array into an array of strings and stores it in Scaled which is then used to calculate the new quantity
                 Scaled = ingredients[i].Split(' ');
                 float quantity = float.Parse(Scaled[0]);
                 quantity *= factor;
@@ -89,7 +91,6 @@ namespace MyRecipeApp
                 Console.WriteLine("Scaled Recipe: ");
                 Console.WriteLine($"{quantity} {Scaled[1]} of {Scaled[3]}");
             }
-           
                 
             Console.WriteLine("Steps: ");
             for (int i = 0; i < steps.Length; i++)
@@ -102,7 +103,5 @@ namespace MyRecipeApp
         }
 
     }
-    
-        
-  
 }
+//-----------------------------------------------O________________END_OF_FILE________________O----------------------------------------------//
