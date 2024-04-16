@@ -13,26 +13,6 @@ namespace MyRecipeApp
         {
             while (true)
             {
-                Console.WriteLine("\n1. Enter Recipe Details");
-                Console.WriteLine("2. Display Recipe");
-                Console.WriteLine("3. Scale Recipe");
-                Console.WriteLine("4. Reset");
-                Console.WriteLine("5. Exit");
-
-                Console.WriteLine("Enter your choice: ");
-                int choice = Convert.ToInt32(Console.ReadLine());
-                Console.WriteLine("\n");
-
-                switch (choice)
-                {
-                    case 1:
-                        worker.EnterRecipeDetails();
-                        break;
-                    case 2:
-                        worker.DisplayRecipe();
-                        break;
-                    case 3:
-                        Console.WriteLine("Enter the scale factor: ");
                         float factor = float.Parse(Console.ReadLine());
                         worker.ScaleRecipe(factor);
                         break;
