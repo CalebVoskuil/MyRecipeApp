@@ -7,35 +7,112 @@ using System.Threading.Tasks;
 
 namespace MyRecipeApp
 {
+    class Ingredient
+    {
+        public string Name { get; set; }
+        public float Quantity { get; set; }
+        public string Unit { get; set; }
+        public int Calories { get; set; }
+        public string FoodGroup { get; set; }
+
+        public override string ToString()
+        {
+            return $"{Quantity} {Unit} of {Name} ({Calories} calories, {FoodGroup})";
+        }
+        //------------------------------------------------------------------------------------------------------------------------------------------------------------//
+        public void ConvertUnits(float factor)
+        {
+            // Define conversion ratios for common unit conversions
+            var unitConversions = new Dictionary<string, Dictionary<string, float>>
+    {
+        { "teaspoon", new Dictionary<string, float> { { "tablespoon", 1.0f / 3 }, { "cup", 1.0f / 48 }, { "ounce", 1.0f / 6 }, { "gram", 5 } } },
+        { "tablespoon", new Dictionary<string, float> { { "teaspoon", 3 }, { "cup", 1.0f / 16 }, { "ounce", 1.0f / 2 }, { "gram", 15 } } },
+        { "cup", new Dictionary<string, float> { { "teaspoon", 48 }, { "tablespoon", 16 }, { "ounce", 8 }, { "gram", 240 } } },
+        { "ounce", new Dictionary<string, float> { { "teaspoon", 6 }, { "tablespoon", 2 }, { "cup", 1.0f / 8 }, { "gram", 28.35f } } },
+        { "gram", new Dictionary<string, float> { { "teaspoon", 0.2f }, { "tablespoon", 0.067f }, { "cup", 0.0042f }, { "ounce", 0.035f } } }
+        // Add more conversion ratios as needed
+    };
+
+            // Check if the current unit has conversion ratios defined
+            if (unitConversions.ContainsKey(Unit))
+            {
+                // Loop through each possible target unit
+                foreach (var targetUnit in unitConversions[Unit])
+                {
+                    // Check if the target unit has a conversion ratio defined
+                    if (unitConversions.ContainsKey(targetUnit.Key))
+                    {
+                        // Calculate the conversion factor from the current unit to the target unit
+                        float conversionFactor = unitConversions[Unit][targetUnit.Key];
+
+                        // Convert the quantity to the target unit and scale the quantity
+                        float scaledQuantity = Quantity * conversionFactor * factor;
+
+                        // Set the unit to the target unit
+                        Unit = targetUnit.Key;
+                        Quantity = scaledQuantity;
+                        return; // Exit after the first conversion is applied
+                    }
+                }
+                Console.WriteLine($"Conversion to any other unit not supported for unit '{Unit}'.");
+            }
+            else
+            {
+                Console.WriteLine($"Unit '{Unit}' not supported for conversion.");
+            }
+        }
+    }
+    //------------------------------------------------------------------------------------------------------------------------------------------------------------//
+    class Recipe
+    {
+        public string Name { get; set; }
+        public List<Ingredient> Ingredients { get; set; }
+        public List<string> Steps { get; set; }
+
+        public Recipe()
+        {
+            Ingredients = new List<Ingredient>();
+            Steps = new List<string>();
+        }
+
+        public int TotalCalories()
+        {
+            return Ingredients.Sum(ingredient => ingredient.Calories);
+        }
+
+        public override string ToString()
+        {
+            return Name;
+        }
+    }
+ //------------------------------------------------------------------------------------------------------------------------------------------------------------//
     class MyIngredients
     {
-        string recipeName;
-        string[] Scaled;
-        string[] ingredients;
-        string[] steps;
+        public delegate void CalorieNotification(string message);
+        public event CalorieNotification OnCaloriesExceeded;
 
-        //takes user input for recipe details and stores it in array called ingredients
+        List<Recipe> recipes = new List<Recipe>();
+
         public void EnterRecipeDetails()
         {
+            Recipe recipe = new Recipe();
+
             Console.WriteLine("Enter the recipe name: ");
-            recipeName = Console.ReadLine();
-            
-            int myIngredients;
-            //this is how ive implemented error handling in my project, i have a try catch block which checks to see if the number of ingredients you have is a postive number
-            //if the number isnt postive or is 0 it will give you an out of range error with the custom message i typed as well
-             while (true)
+            recipe.Name = Console.ReadLine();
+
+            int numIngredients;
+            while (true)
             {
                 try
                 {
                     Console.WriteLine("Enter number of ingredients: ");
-                    myIngredients = int.Parse(Console.ReadLine());
-                    if (myIngredients <= 0)
+                    numIngredients = int.Parse(Console.ReadLine());
+                    if (numIngredients <= 0)
                     {
                         throw new ArgumentOutOfRangeException("Invalid input. Please enter a number greater than 0");
-                    }  
-                        break;   
+                    }
+                    break;
                 }
-
                 catch (FormatException)
                 {
                     Console.WriteLine("Invalid input. Please enter a valid integer.");
@@ -44,31 +121,24 @@ namespace MyRecipeApp
                 {
                     Console.WriteLine(ex.Message);
                 }
-
             }
-             ingredients = new string[myIngredients];
 
-            
-
-            //loops to take user input for each ingredient
-            for(int i = 0; i < myIngredients; i++)
+            for (int i = 0; i < numIngredients; i++)
             {
-                Console.WriteLine("Enter the ingredient name: ");
-                string name = Console.ReadLine();
+                Ingredient ingredient = new Ingredient();
 
-                string quantity;
-                // this is the same concept as the previous try cacth block with it taking in your quantity as a string and attempting to parse it to a float
-                //if the float is less than or equal to 0 you will get the error message
-                //additionally if you accidentally type in something that isnt a number the prgram will catch that as well and display the error message
-                while(true)
+                Console.WriteLine("Enter the ingredient name: ");
+                ingredient.Name = Console.ReadLine();
+
+                while (true)
                 {
                     try
                     {
                         Console.WriteLine("Enter the quantity: ");
-                        quantity = Console.ReadLine();
-                        if(float.Parse(quantity) <= 0)
+                        ingredient.Quantity = float.Parse(Console.ReadLine());
+                        if (ingredient.Quantity <= 0)
                         {
-                            throw new ArgumentOutOfRangeException("Invalid input. Please enter a number greater than 0");                         
+                            throw new ArgumentOutOfRangeException("Invalid input. Please enter a number greater than 0");
                         }
                         break;
                     }
@@ -83,122 +153,150 @@ namespace MyRecipeApp
                 }
 
                 Console.WriteLine("Enter the unit of measurement: ");
-                string unit = Console.ReadLine();
-                Console.WriteLine("\n");
+                ingredient.Unit = Console.ReadLine();
 
-                ingredients[i] = $"{quantity} {unit} of {name}";
+                while (true)
+                {
+                    try
+                    {
+                        Console.WriteLine("Enter the number of calories: ");
+                        ingredient.Calories = int.Parse(Console.ReadLine());
+                        if (ingredient.Calories < 0)
+                        {
+                            throw new ArgumentOutOfRangeException("Invalid input. Please enter a non-negative number.");
+                        }
+                        break;
+                    }
+                    catch (FormatException)
+                    {
+                        Console.WriteLine("Invalid input. Please enter a valid integer.");
+                    }
+                    catch (ArgumentOutOfRangeException ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                }
+
+                Console.WriteLine("Enter the food group: ");
+                ingredient.FoodGroup = Console.ReadLine();
+
+                recipe.Ingredients.Add(ingredient);
             }
-            
 
-            int mySteps; 
-            while(true)
+            int numSteps;
+            while (true)
             {
                 try
                 {
                     Console.WriteLine("Enter number of steps: ");
-                    mySteps = int.Parse(Console.ReadLine());
-                    if(mySteps <= 0)
+                    numSteps = int.Parse(Console.ReadLine());
+                    if (numSteps <= 0)
                     {
                         throw new ArgumentOutOfRangeException("Invalid input. Please enter a number above 0: ");
                     }
                     break;
-                    
                 }
-                catch(FormatException) 
+                catch (FormatException)
                 {
-                    Console.WriteLine("invalid input. PLease input a valid number");
+                    Console.WriteLine("Invalid input. Please input a valid number.");
                 }
                 catch (ArgumentOutOfRangeException ex)
                 {
                     Console.WriteLine(ex.Message);
                 }
-
             }
-            steps = new string[mySteps];    
 
-            //loops to take a description of each step
-            for(int i = 0; i < mySteps; i++)
+            for (int i = 0; i < numSteps; i++)
             {
                 Console.WriteLine($"Enter step #{i + 1}: ");
-                steps[i] = Console.ReadLine();
+                recipe.Steps.Add(Console.ReadLine());
             }
 
+            recipes.Add(recipe);
 
+            int totalCalories = recipe.TotalCalories();
+            Console.WriteLine("*************************************************************************");
+            Console.WriteLine($"Total Calories: {totalCalories}");
+            if (totalCalories > 300)
+            {
+                OnCaloriesExceeded?.Invoke("Warning: This recipe exceeds 300 calories!");
+            }
+            Console.WriteLine("*************************************************************************");
+            OnCaloriesExceeded += HandleCaloriesExceeded;
         }
-  //----------------------------------------------------------------------------------------------------------------------------------//
-        //prints out each ingredient in the ingredients array and each step in the steps array
-        public void DisplayRecipe()
+        //------------------------------------------------------------------------------------------------------------------------------------------------------------//
+        private void HandleCaloriesExceeded(string message)
+        {
+            ConsoleColor originalColor = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(message);
+            Console.ForegroundColor = originalColor;
+        }
+        //------------------------------------------------------------------------------------------------------------------------------------------------------------//
+        public void DisplayAllRecipes()
+        {
+            var sortedRecipes = recipes.OrderBy(r => r.Name).ToList();
+            Console.WriteLine("Recipes List:");
+            for (int i = 0; i < sortedRecipes.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {sortedRecipes[i].Name}");
+            }
+
+            Console.WriteLine("Enter the number of the recipe you want to view: ");
+            int choice = int.Parse(Console.ReadLine());
+
+            if (choice > 0 && choice <= sortedRecipes.Count)
+            {
+                DisplayRecipe(sortedRecipes[choice - 1]);
+            }
+            else
+            {
+                Console.WriteLine("Invalid choice.");
+            }
+        }
+        //------------------------------------------------------------------------------------------------------------------------------------------------------------//
+        public void DisplayRecipe(Recipe recipe, float factor = 1.0f)
         {
             Console.WriteLine("*************************************************************************");
-            Console.WriteLine("Recipe Details");
-            Console.WriteLine($"Recipe Name: {recipeName}");
+            Console.WriteLine($"Recipe Name: {recipe.Name}");
             Console.WriteLine("Ingredients: ");
-            foreach(string ingredient in ingredients)
+            foreach (var ingredient in recipe.Ingredients)
             {
-                Console.WriteLine(ingredient,"\n");
+                Console.WriteLine(ingredient);
             }
             Console.WriteLine("Steps: ");
-            for(int i = 0; i < steps.Length; i++)
+            for (int i = 0; i < recipe.Steps.Count; i++)
             {
-                Console.WriteLine($"{i + 1}. {steps[i]}");
+                Console.WriteLine($"{i + 1}. {recipe.Steps[i]}");
             }
             Console.WriteLine("*************************************************************************");
-
         }
-//----------------------------------------------------------------------------------------------------------------------------------//
-        //sets all array values back to empty 
+        //------------------------------------------------------------------------------------------------------------------------------------------------------------//
         public void Reset()
-        { 
-            Scaled = null;
-            Console.WriteLine("Recipe details have been reset");
-        }
-  //----------------------------------------------------------------------------------------------------------------------------------//
-        public void ScaleRecipe(float factor)
         {
-            for(int i = 0; i < ingredients.Length; i++)
-            {
-  // splits the string in the ingredients array into an array of strings and stores it in Scaled which is then used to calculate the new quantity
-                Scaled = ingredients[i].Split(' ');
-                // this method works by having the try check if the length of the split array is less than 4 or more than 4, this only works because i know the structure of my array beforehand
-                //if the length isnt exactly 4 then the program will throw out an error message
-                //also if you typed in something that isnt a number the program will find out by trying to parse it to a float and if unsucssesful it will display an error message
-                try
-                {
-                    if(Scaled.Length > 4 || 4 > Scaled.Length)
-                    {
-                        throw new ArgumentOutOfRangeException("Invalid ingredients.");
-                    }
-                    if (!float.TryParse(Scaled[0], out float quantity))
-                    {
-                        Console.WriteLine("Invalid quantity");
-                    }
-                    quantity *= factor;
-                    Console.WriteLine("*************************************************************************");
-                    Console.WriteLine("Scaled Recipe: ");
-                    Console.WriteLine($"{quantity} {Scaled[1]} of {Scaled[3]}");
-                }
-                catch (FormatException ex)
-                {
-                    Console.WriteLine(ex.Message + " Ingredient: " + ingredients);
-                }
-                catch (ArgumentOutOfRangeException ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-            }
-                
-               
-                
-            Console.WriteLine("Steps: ");
-            for (int i = 0; i < steps.Length; i++)
-            {
-                Console.WriteLine($"{i + 1}. {steps[i]}");
-            }
-            Console.WriteLine("*************************************************************************"); 
-   
-
+            recipes.Clear();
+            Console.WriteLine("All recipes have been reset");
         }
 
+        public void ScaleRecipe(string recipeName, float factor)
+        {
+            var recipe = recipes.FirstOrDefault(r => r.Name.Equals(recipeName, StringComparison.OrdinalIgnoreCase));
+            if (recipe == null)
+            {
+                Console.WriteLine("Recipe not found.");
+                return;
+            }
+
+            // Scale each ingredient quantity
+            foreach (var ingredient in recipe.Ingredients)
+            {
+                // Convert units to tablespoons and scale the quantity
+                ingredient.ConvertUnits(factor);
+            }
+
+            // Display the scaled recipe
+            DisplayRecipe(recipe, factor);
+        }
     }
 }
 //-----------------------------------------------O________________END_OF_FILE________________O----------------------------------------------//

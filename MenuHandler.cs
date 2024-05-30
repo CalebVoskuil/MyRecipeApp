@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,8 +10,11 @@ namespace MyRecipeApp
     internal class MenuHandler
     {
         private MyIngredients worker = new MyIngredients();
+        
         public void HandleMenu()
         {
+            worker.OnCaloriesExceeded += HandleCaloriesExceeded;
+
             while (true)
             {
                 Console.WriteLine("\n1. Enter Recipe Details");
@@ -26,12 +30,14 @@ namespace MyRecipeApp
                 switch (choice)
                 {
                     case 1:
-                        worker.EnterRecipeDetails();
+                        worker.EnterRecipeDetails();                      
                         break;
                     case 2:
-                        worker.DisplayRecipe();
+                        worker.DisplayAllRecipes();
                         break;
                     case 3:
+                        Console.WriteLine("Enter the recipe name to scale: ");
+                        string recipeName = Console.ReadLine();
                         Console.WriteLine("Enter the scale factor: ");
                         //checks to make sure factor is a postive number and above 0 before doing the calculation
                         float factor;
@@ -39,7 +45,7 @@ namespace MyRecipeApp
                         {
                             Console.WriteLine("Invalid input. Enter a positive number for scaling factor: ");
                         }
-                        worker.ScaleRecipe(factor);
+                        worker.ScaleRecipe(recipeName, factor);
                         break;
                     case 4:
                         worker.Reset();
@@ -52,6 +58,14 @@ namespace MyRecipeApp
                         break;
                 }
             }
+        }
+        private void HandleCaloriesExceeded(string message)
+        {
+            ConsoleColor originalColor = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(message);
+            Console.ForegroundColor = originalColor;
+            
         }
     }
 }
