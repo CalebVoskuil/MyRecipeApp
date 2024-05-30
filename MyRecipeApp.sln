@@ -5,6 +5,8 @@ VisualStudioVersion = 17.9.34616.47
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyRecipeApp", "MyRecipeApp.csproj", "{B391A2B1-34D3-422A-A6CE-681FE87C0D4F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalorieCountTest", "..\CalorieCountTest\CalorieCountTest.csproj", "{5D26B9A3-055D-494C-9844-F7F775A99FB2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{B391A2B1-34D3-422A-A6CE-681FE87C0D4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B391A2B1-34D3-422A-A6CE-681FE87C0D4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B391A2B1-34D3-422A-A6CE-681FE87C0D4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D26B9A3-055D-494C-9844-F7F775A99FB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D26B9A3-055D-494C-9844-F7F775A99FB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D26B9A3-055D-494C-9844-F7F775A99FB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D26B9A3-055D-494C-9844-F7F775A99FB2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

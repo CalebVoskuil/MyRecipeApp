@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MyRecipeApp
 {
-    class Ingredient
+   public class Ingredient
     {
         public string Name { get; set; }
         public float Quantity { get; set; }
@@ -63,7 +63,7 @@ namespace MyRecipeApp
         }
     }
     //------------------------------------------------------------------------------------------------------------------------------------------------------------//
-    class Recipe
+   public class Recipe
     {
         public string Name { get; set; }
         public List<Ingredient> Ingredients { get; set; }
@@ -86,12 +86,12 @@ namespace MyRecipeApp
         }
     }
  //------------------------------------------------------------------------------------------------------------------------------------------------------------//
-    class MyIngredients
+   public class MyIngredients
     {
         public delegate void CalorieNotification(string message);
         public event CalorieNotification OnCaloriesExceeded;
 
-        List<Recipe> recipes = new List<Recipe>();
+        public List<Recipe> recipes = new List<Recipe>();
 
         public void EnterRecipeDetails()
         {

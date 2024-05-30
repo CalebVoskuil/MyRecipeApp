@@ -9,7 +9,7 @@ namespace MyRecipeApp
 {
     internal class MenuHandler
     {
-        private MyIngredients worker = new MyIngredients();
+         MyIngredients worker = new MyIngredients();
         
         public void HandleMenu()
         {
